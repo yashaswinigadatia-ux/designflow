@@ -1,37 +1,51 @@
-import { Slider } from '@/components/ui/slider';
-import type { AgentNodeData, AgentProvider } from '@/workflow/workflow-types';
+import { Input } from '@/components/ui/input';
+import type { AgentNodeData } from '@/workflow/workflow-types';
 import { Field } from '../node-field';
-import { ModelSelector } from '../model-selector';
 import { useNodeData } from '../use-node-data';
 
-export function AgentBody({ data }: { readonly data: AgentNodeData }) {
+export function AgentBody({
+    data,
+}: {
+    readonly data: AgentNodeData;
+}) {
     const patch = useNodeData<AgentNodeData>();
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-3">
 
             <Field label="Component Type">
-                <ModelSelector
-    model={data.model}
-    className="w-full"
-    onChange={(model) =>
-        patch({
-            model,
-        })
-    }
-/>
+                <Input
+                    value={data.componentType}
+                    placeholder="Button / Card / Input"
+                    onChange={(event) =>
+                        patch({
+                            componentType: event.target.value as AgentNodeData['componentType'],
+                        })
+                    }
+                />
             </Field>
 
-            <Field label={`Corner Radius • ${data.tokenBudget}px`}>
-                <Slider
-                    aria-label="Corner Radius"
-                    min={0}
-                    max={40}
-                    step={2}
-                    value={[data.tokenBudget]}
-                    onValueChange={([value]) =>
+
+            <Field label="Variant">
+                <Input
+                    value={data.variant}
+                    placeholder="Primary / Secondary"
+                    onChange={(event) =>
                         patch({
-                            tokenBudget: value,
+                            variant: event.target.value,
+                        })
+                    }
+                />
+            </Field>
+
+
+            <Field label="Label">
+                <Input
+                    value={data.label}
+                    placeholder="Login"
+                    onChange={(event) =>
+                        patch({
+                            label: event.target.value,
                         })
                     }
                 />

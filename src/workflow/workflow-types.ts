@@ -17,10 +17,25 @@ export type RunStatus = 'idle' | 'running' | 'success' | 'error';
 /** The kinds of node the builder understands. `note` is a canvas annotation. */
 export type NodeKind = 'input' | 'skill' | 'agent' | 'tool' | 'output' | 'note';
 
-/** Where the agent sends its request. `mock` runs fully offline. */
-export type AgentProvider = 'mock' | 'openai' | 'anthropic';
+//************** DesignFlow Types **************/
 
-type ToolId = 'reddit-search';
+export type ComponentType =
+    | 'Button'
+    | 'Card'
+    | 'Input'
+    | 'Checkbox'
+    | 'Navbar';
+
+export type LayoutType =
+    | 'Mobile'
+    | 'Tablet'
+    | 'Desktop';
+
+export type ScreenType =
+    | 'Login'
+    | 'Home'
+    | 'Profile'
+    | 'Settings';
 
 /** Lucide icon names, resolved to components in `components/nodes/node-icon`. */
 export type NodeIconName = 'type' | 'file-code' | 'bot' | 'file-text' | 'reddit';
@@ -66,41 +81,39 @@ interface BaseNodeData {
 }
 
 export interface InputNodeData extends BaseNodeData {
-  readonly kind: 'input';
-  /** The user prompt fed into the agent. */
-  readonly prompt: string;
+    readonly kind: 'input';
+    readonly screenName: string;
+    readonly screenType: ScreenType;
+    readonly description: string;
 }
 
+
 export interface SkillNodeData extends BaseNodeData {
-  readonly kind: 'skill';
-  readonly fileName: string;
-  /** Markdown content appended to the agent's system instruction. */
-  readonly content: string;
+    readonly kind: 'skill';
+    readonly screenName: string;
+    readonly layout: LayoutType;
+    readonly description: string;
 }
 
 export interface AgentNodeData extends BaseNodeData {
-  readonly kind: 'agent';
-  readonly provider: AgentProvider;
-  readonly model: string;
-  /** Soft cap on output tokens. */
-  readonly tokenBudget: number;
-  /** Tokens consumed by the last run (shown on the result link). */
-  readonly tokensUsed?: number;
-  /** Last run error for this agent (bad key, CORS, …), shown inside the node. */
-  readonly runError?: string;
+    readonly kind: 'agent';
+    readonly componentType: ComponentType;
+    readonly variant: string;
+    readonly label: string;
 }
 
 export interface ToolNodeData extends BaseNodeData {
-  readonly kind: 'tool';
-  readonly tool: ToolId;
-  readonly subreddit: string;
-  readonly limit: number;
+    readonly kind: 'tool';
+    readonly navigationPosition: string;
+    readonly logo: string;
+    readonly menuItems: string;
 }
 
 export interface OutputNodeData extends BaseNodeData {
-  readonly kind: 'output';
-  /** Markdown result rendered in the node + inspector. */
-  readonly markdown: string;
+    readonly kind: 'output';
+    readonly prototypeName: string;
+    readonly version: string;
+    readonly preview: string;
 }
 
 export interface NoteNodeData {

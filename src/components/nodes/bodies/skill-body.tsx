@@ -1,37 +1,56 @@
 import { Textarea } from '@/components/ui/textarea';
 import type { SkillNodeData } from '@/workflow/workflow-types';
 import { Field } from '../node-field';
-import { MarkdownFileField } from '../markdown-file-field';
 import { useNodeData } from '../use-node-data';
 
-export function SkillBody({ data }: { readonly data: SkillNodeData }) {
+export function SkillBody({
+    data,
+}: {
+    readonly data: SkillNodeData;
+}) {
     const patch = useNodeData<SkillNodeData>();
 
     return (
-        <div className="space-y-2">
+        <div className="space-y-3">
 
-            <Field label="Screen Type">
-                <MarkdownFileField
-                    fileName={data.fileName}
-                    onFile={(fileName, content) =>
+            <Field label="Screen Name">
+                <Textarea
+                    value={data.screenName}
+                    placeholder="Enter screen name..."
+                    onChange={(event) =>
                         patch({
-                            fileName,
-                            content,
+                            screenName: event.target.value,
                         })
                     }
+                    className="resize-none min-h-16"
                 />
             </Field>
 
-            <Field label="Purpose">
+
+            <Field label="Layout">
                 <Textarea
-                    value={data.content}
-                    placeholder="Describe the purpose of this screen..."
+                    value={data.layout}
+                    placeholder="Mobile / Tablet / Desktop"
                     onChange={(event) =>
                         patch({
-                            content: event.target.value,
+                            layout: event.target.value as SkillNodeData['layout'],
                         })
                     }
-                    className="resize-none field-sizing-content min-h-20 max-h-[400px] overflow-auto overscroll-contain text-xs"
+                    className="resize-none min-h-16"
+                />
+            </Field>
+
+
+            <Field label="Description">
+                <Textarea
+                    value={data.description}
+                    placeholder="Describe this screen..."
+                    onChange={(event) =>
+                        patch({
+                            description: event.target.value,
+                        })
+                    }
+                    className="resize-none min-h-20"
                 />
             </Field>
 

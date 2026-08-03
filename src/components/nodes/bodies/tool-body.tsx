@@ -1,37 +1,51 @@
 import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
 import type { ToolNodeData } from '@/workflow/workflow-types';
 import { Field } from '../node-field';
 import { useNodeData } from '../use-node-data';
 
-export function ToolBody({ data }: { readonly data: ToolNodeData }) {
+export function ToolBody({
+    data,
+}: {
+    readonly data: ToolNodeData;
+}) {
     const patch = useNodeData<ToolNodeData>();
 
     return (
-        <div className="space-y-2.5">
+        <div className="space-y-3">
 
-            <Field label="Navigation Title">
+            <Field label="Navigation Position">
                 <Input
-                    value={data.subreddit}
-                    placeholder="Home"
+                    value={data.navigationPosition}
+                    placeholder="Top / Bottom / Side"
                     onChange={(event) =>
                         patch({
-                            subreddit: event.target.value,
+                            navigationPosition: event.target.value,
                         })
                     }
                 />
             </Field>
 
-            <Field label={`Number of Menu Items · ${data.limit}`}>
-                <Slider
-                    aria-label="Menu Items"
-                    min={1}
-                    max={8}
-                    step={1}
-                    value={[data.limit]}
-                    onValueChange={([limit]) =>
+
+            <Field label="Logo">
+                <Input
+                    value={data.logo}
+                    placeholder="Enter logo name..."
+                    onChange={(event) =>
                         patch({
-                            limit,
+                            logo: event.target.value,
+                        })
+                    }
+                />
+            </Field>
+
+
+            <Field label="Menu Items">
+                <Input
+                    value={data.menuItems}
+                    placeholder="Home, Profile, Settings"
+                    onChange={(event) =>
+                        patch({
+                            menuItems: event.target.value,
                         })
                     }
                 />

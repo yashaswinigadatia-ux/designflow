@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Maximize2 } from 'lucide-react';
-import { usePress } from '@/hooks/use-press';
+
 import {
     Dialog,
     DialogContent,
@@ -8,70 +8,87 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { MarkdownView } from '@/components/ui/markdown';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/utils/cn';
+import { Input } from '@/components/ui/input';
 import type { OutputNodeData } from '@/workflow/workflow-types';
+import { cn } from '@/utils/cn';
+import { Field } from '../node-field';
+import { useNodeData } from '../use-node-data';
 
-// Preview of the generated UI design.
-export function MarkdownResult({ markdown }: { readonly markdown: string }) {
-    if (!markdown) {
+
+export function MarkdownResult({
+    preview,
+    markdown,
+}: {
+    readonly preview?: string;
+    readonly markdown?: string;
+}) {
+    const content = preview ?? markdown ?? '';
+
+    if (!content) {
         return (
             <p className="rounded-md border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
-                Build your design to preview it...
+                Build your prototype to preview it...
             </p>
         );
     }
 
-    return <MarkdownView markdown={markdown} />;
+    return (
+        <div className="rounded-md border border-border bg-muted/30 p-3 text-xs whitespace-pre-wrap">
+            {content}
+        </div>
+    );
 }
 
-function ResultDialog({
+
+function PreviewDialog({
     open,
     onOpenChange,
-    markdown,
+    preview,
 }: {
     readonly open: boolean;
     readonly onOpenChange: (open: boolean) => void;
-    readonly markdown: string;
+    readonly preview: string;
 }) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[92vw] max-w-3xl">
+
                 <DialogHeader>
-                    <DialogTitle>Prototype Preview</DialogTitle>
+                    <DialogTitle>
+                        Prototype Preview
+                    </DialogTitle>
+
                     <DialogDescription>
-                        Preview of your generated UI design.
+                        Preview of your generated UI prototype.
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="-mx-1 max-h-[70vh] overflow-auto px-1">
-                    <MarkdownResult markdown={markdown} />
+                    <MarkdownResult preview={preview} />
                 </div>
+
             </DialogContent>
         </Dialog>
     );
 }
 
+
 export function ExpandableResult({
+    preview,
     markdown,
     boxClassName,
 }: {
-    readonly markdown: string;
+    readonly preview?: string;
+    readonly markdown?: string;
     readonly boxClassName?: string;
 }) {
     const [open, setOpen] = useState(false);
 
-    const expandPress = usePress(() => setOpen(true), {
-        activateOn: 'pointerup',
-    });
+    const content = preview ?? markdown ?? '';
 
     return (
         <div className="relative min-w-0">
+
             <div
                 onPointerDown={(event) => event.stopPropagation()}
                 data-jj-scrollable
@@ -80,66 +97,79 @@ export function ExpandableResult({
                     boxClassName,
                 )}
             >
-                <MarkdownResult markdown={markdown} />
+                <MarkdownResult preview={content} />
             </div>
 
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <button
-                        type="button"
-                        aria-label="Open prototype preview"
-                        onPointerDown={(event) => {
-                            event.stopPropagation();
-                            expandPress.onPointerDown(event);
-                        }}
-                        onPointerMove={expandPress.onPointerMove}
-                        onPointerUp={(event) => {
-                            event.stopPropagation();
-                            expandPress.onPointerUp(event);
-                        }}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            expandPress.onClick(event);
-                        }}
-                        className={cn(
-                            'absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-md',
-                            'border border-border/60 bg-card/85 text-muted-foreground shadow-sm backdrop-blur-sm',
-                            'transition-colors hover:text-foreground',
-                            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                        )}
-                    >
-                        <Maximize2 className="size-3.5 pointer-events-none" />
-                    </button>
-                </TooltipTrigger>
 
-                <TooltipContent>
-                    Open Prototype Preview
-                </TooltipContent>
-            </Tooltip>
+            <button
+                type="button"
+                aria-label="Open prototype preview"
+                onClick={() => setOpen(true)}
+                className={cn(
+                    'absolute right-1.5 top-1.5 grid size-7 place-items-center rounded-md',
+                    'border border-border/60 bg-card/85 text-muted-foreground shadow-sm backdrop-blur-sm',
+                    'transition-colors hover:text-foreground',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                )}
+            >
+                <Maximize2 className="size-3.5 pointer-events-none" />
+            </button>
 
-            <ResultDialog
+
+            <PreviewDialog
                 open={open}
                 onOpenChange={setOpen}
-                markdown={markdown}
+                preview={content}
             />
+
         </div>
     );
 }
+
 
 export function OutputBody({
     data,
 }: {
     readonly data: OutputNodeData;
 }) {
-    if (!data.markdown) {
-        return <MarkdownResult markdown="" />;
-    }
+    const patch = useNodeData<OutputNodeData>();
 
     return (
-        <ExpandableResult
-            markdown={data.markdown}
-            boxClassName="max-h-56"
-        />
+        <div className="space-y-3">
+
+            <Field label="Prototype Name">
+                <Input
+                    value={data.prototypeName}
+                    placeholder="Login Prototype"
+                    onChange={(event) =>
+                        patch({
+                            prototypeName: event.target.value,
+                        })
+                    }
+                />
+            </Field>
+
+
+            <Field label="Version">
+                <Input
+                    value={data.version}
+                    placeholder="v1.0"
+                    onChange={(event) =>
+                        patch({
+                            version: event.target.value,
+                        })
+                    }
+                />
+            </Field>
+
+
+            <Field label="Preview">
+                <ExpandableResult
+                    preview={data.preview}
+                    boxClassName="max-h-56"
+                />
+            </Field>
+
+        </div>
     );
 }
