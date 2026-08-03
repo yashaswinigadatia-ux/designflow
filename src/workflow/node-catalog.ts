@@ -28,8 +28,8 @@ export interface NodeConfig {
 export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     input: {
         kind: 'input',
-        title: 'Text Input',
-        description: 'The starting prompt for the flow.',
+        title: 'Login Screen',
+        description: 'Starting screen of the application.',
         icon: 'type',
         accent: 'skill',
         width: 256,
@@ -44,8 +44,8 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     },
     skill: {
         kind: 'skill',
-        title: 'Markdown File',
-        description: 'A Markdown instruction file for the agent.',
+        title: 'Home Screen',
+        description: 'Main dashboard after login.',
         icon: 'file-code',
         accent: 'skill',
         width: 256,
@@ -61,8 +61,8 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     },
     agent: {
         kind: 'agent',
-        title: 'AI Agent',
-        description: 'Runs an LLM with tool calling.',
+        title: 'Button Component',
+        description: 'Reusable button component.',
         icon: 'bot',
         accent: 'brand',
         width: 272,
@@ -84,8 +84,8 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     },
     tool: {
         kind: 'tool',
-        title: 'Search Reddit',
-        description: 'Finds trending posts in a subreddit.',
+        title: 'Navigation Bar',
+        description: 'Top navigation component.',
         icon: 'reddit',
         accent: 'tool',
         width: 256,
@@ -103,8 +103,8 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     },
     output: {
         kind: 'output',
-        title: 'Formatted Output',
-        description: 'Renders the result as Markdown.',
+        title: 'Prototype Preview',
+        description: 'Final UI prototype.',
         icon: 'file-text',
         accent: 'result',
         width: 288,

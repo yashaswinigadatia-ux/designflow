@@ -19,15 +19,27 @@ import type { WorkflowElement, WorkflowLink } from '@/workflow/workflow-types';
 const AUDIT_BASE = 'https://www.accessibilitychecker.org/audit/';
 
 interface Section {
-  readonly title: string;
-  readonly kinds: readonly ConfigKind[];
+    readonly title: string;
+    readonly kinds: readonly ConfigKind[];
 }
 
 const SECTIONS: readonly Section[] = [
-    { title: 'Inputs', kinds: ['input', 'skill'] },
-    { title: 'Agent', kinds: ['agent'] },
-    { title: 'Tools', kinds: ['tool'] },
-    { title: 'Output', kinds: ['output'] },
+    {
+        title: 'Screens',
+        kinds: ['input', 'skill'],
+    },
+    {
+        title: 'UI Components',
+        kinds: ['agent'],
+    },
+    {
+        title: 'Layouts',
+        kinds: ['tool'],
+    },
+    {
+        title: 'Assets & Output',
+        kinds: ['output'],
+    },
 ];
 
 interface StencilItemProps {

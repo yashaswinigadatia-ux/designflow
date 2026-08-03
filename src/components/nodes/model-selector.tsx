@@ -1,4 +1,3 @@
-// LLM provider + model dropdown, encoding both as "provider:model".
 import {
     Select,
     SelectContent,
@@ -6,39 +5,63 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { isAgentProvider, PROVIDER_LABEL, PROVIDER_MODELS, PROVIDERS } from '@/utils/ai/models';
-import type { AgentProvider } from '@/workflow/workflow-types';
 
 interface ModelSelectorProps {
-  readonly provider: AgentProvider;
-  readonly model: string;
-  /** Called with the decoded provider + model when the selection changes. */
-  readonly onChange: (provider: AgentProvider, model: string) => void;
-  readonly className?: string;
+    readonly model: string;
+    readonly onChange: (model: string) => void;
+    readonly className?: string;
 }
 
-export function ModelSelector({ provider, model, onChange, className }: ModelSelectorProps) {
+const COMPONENT_TYPES = [
+    'Primary Button',
+    'Secondary Button',
+    'Icon Button',
+    'Text Button',
+    'Floating Action Button',
+    'Outlined Button',
+    'Card',
+    'Input Field',
+    'Text Area',
+    'Dropdown',
+    'Checkbox',
+    'Radio Button',
+    'Switch',
+    'Search Bar',
+    'Navigation Bar',
+    'Tab Bar',
+    'Sidebar',
+    'Modal',
+    'Alert Dialog',
+    'Avatar',
+    'Profile Card',
+];
+
+export function ModelSelector({
+    model,
+    onChange,
+    className,
+}: ModelSelectorProps) {
     return (
         <Select
-            value={`${provider}:${model}`}
-            onValueChange={(value) => {
-                const separator = value.indexOf(':');
-                const nextProvider = value.slice(0, separator);
-                const nextModel = value.slice(separator + 1);
-                if (isAgentProvider(nextProvider)) onChange(nextProvider, nextModel);
-            }}
+            value={model}
+            onValueChange={onChange}
         >
-            <SelectTrigger className={className} aria-label="LLM model">
-                <SelectValue />
+            <SelectTrigger
+                className={className}
+                aria-label="Component Type"
+            >
+                <SelectValue placeholder="Select Component Type" />
             </SelectTrigger>
+
             <SelectContent>
-                {PROVIDERS.flatMap((option) =>
-                    PROVIDER_MODELS[option].map((entry) => (
-                        <SelectItem key={`${option}:${entry.id}`} value={`${option}:${entry.id}`}>
-                            {PROVIDER_LABEL[option]} · {entry.label}
-                        </SelectItem>
-                    ))
-                )}
+                {COMPONENT_TYPES.map((component) => (
+                    <SelectItem
+                        key={component}
+                        value={component}
+                    >
+                        {component}
+                    </SelectItem>
+                ))}
             </SelectContent>
         </Select>
     );
