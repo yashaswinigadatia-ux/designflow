@@ -9,19 +9,32 @@ export function SkillBody({ data }: { readonly data: SkillNodeData }) {
 
     return (
         <div className="space-y-2">
-            <Field label="Markdown file">
+
+            <Field label="Screen Type">
                 <MarkdownFileField
                     fileName={data.fileName}
-                    onFile={(fileName, content) => patch({ fileName, content })}
+                    onFile={(fileName, content) =>
+                        patch({
+                            fileName,
+                            content,
+                        })
+                    }
                 />
             </Field>
-            <Field label="Instruction">
+
+            <Field label="Purpose">
                 <Textarea
                     value={data.content}
-                    onChange={(event) => patch({ content: event.target.value })}
+                    placeholder="Describe the purpose of this screen..."
+                    onChange={(event) =>
+                        patch({
+                            content: event.target.value,
+                        })
+                    }
                     className="resize-none field-sizing-content min-h-20 max-h-[400px] overflow-auto overscroll-contain text-xs"
                 />
             </Field>
+
         </div>
     );
 }

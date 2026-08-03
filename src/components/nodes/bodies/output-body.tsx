@@ -17,15 +17,16 @@ import {
 import { cn } from '@/utils/cn';
 import type { OutputNodeData } from '@/workflow/workflow-types';
 
-// Rendered Markdown result, or a hint to run the flow. Caller controls height.
+// Preview of the generated UI design.
 export function MarkdownResult({ markdown }: { readonly markdown: string }) {
     if (!markdown) {
         return (
             <p className="rounded-md border border-dashed border-border px-3 py-6 text-center text-xs text-muted-foreground">
-        Run the flow to see the output…
+                Build your design to preview it...
             </p>
         );
     }
+
     return <MarkdownView markdown={markdown} />;
 }
 
@@ -34,17 +35,20 @@ function ResultDialog({
     onOpenChange,
     markdown,
 }: {
-  readonly open: boolean;
-  readonly onOpenChange: (open: boolean) => void;
-  readonly markdown: string;
+    readonly open: boolean;
+    readonly onOpenChange: (open: boolean) => void;
+    readonly markdown: string;
 }) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="w-[92vw] max-w-3xl">
                 <DialogHeader>
-                    <DialogTitle>Result</DialogTitle>
-                    <DialogDescription>Formatted output from the flow.</DialogDescription>
+                    <DialogTitle>Prototype Preview</DialogTitle>
+                    <DialogDescription>
+                        Preview of your generated UI design.
+                    </DialogDescription>
                 </DialogHeader>
+
                 <div className="-mx-1 max-h-[70vh] overflow-auto px-1">
                     <MarkdownResult markdown={markdown} />
                 </div>
@@ -57,20 +61,18 @@ export function ExpandableResult({
     markdown,
     boxClassName,
 }: {
-  readonly markdown: string;
-  readonly boxClassName?: string;
+    readonly markdown: string;
+    readonly boxClassName?: string;
 }) {
     const [open, setOpen] = useState(false);
-    // 'pointerup': node-select on pointerdown re-renders this node, and the
-    // re-render can swallow the synthetic click (see usePress activateOn).
-    const expandPress = usePress(() => setOpen(true), { activateOn: 'pointerup' });
+
+    const expandPress = usePress(() => setOpen(true), {
+        activateOn: 'pointerup',
+    });
+
     return (
-    // stopPropagation goes on the scroll box + button, NOT this wrapper: React
-    // bubbles the portaled dialog's overlay events through the tree, so a
-    // wrapper-level stop swallows Radix's click-outside.
         <div className="relative min-w-0">
             <div
-                // Stop pointerdown reaching the node so scrolling the result doesn't drag it.
                 onPointerDown={(event) => event.stopPropagation()}
                 data-jj-scrollable
                 className={cn(
@@ -80,11 +82,12 @@ export function ExpandableResult({
             >
                 <MarkdownResult markdown={markdown} />
             </div>
+
             <Tooltip>
                 <TooltipTrigger asChild>
                     <button
                         type="button"
-                        aria-label="Open result in full screen"
+                        aria-label="Open prototype preview"
                         onPointerDown={(event) => {
                             event.stopPropagation();
                             expandPress.onPointerDown(event);
@@ -109,15 +112,34 @@ export function ExpandableResult({
                         <Maximize2 className="size-3.5 pointer-events-none" />
                     </button>
                 </TooltipTrigger>
-                <TooltipContent>Full screen</TooltipContent>
+
+                <TooltipContent>
+                    Open Prototype Preview
+                </TooltipContent>
             </Tooltip>
-            <ResultDialog open={open} onOpenChange={setOpen} markdown={markdown} />
+
+            <ResultDialog
+                open={open}
+                onOpenChange={setOpen}
+                markdown={markdown}
+            />
         </div>
     );
 }
 
-export function OutputBody({ data }: { readonly data: OutputNodeData }) {
-    // Capped + scrollable in the node (expand opens full screen) so it can't grow unbounded.
-    if (!data.markdown) return <MarkdownResult markdown="" />;
-    return <ExpandableResult markdown={data.markdown} boxClassName="max-h-56" />;
+export function OutputBody({
+    data,
+}: {
+    readonly data: OutputNodeData;
+}) {
+    if (!data.markdown) {
+        return <MarkdownResult markdown="" />;
+    }
+
+    return (
+        <ExpandableResult
+            markdown={data.markdown}
+            boxClassName="max-h-56"
+        />
+    );
 }

@@ -38,8 +38,7 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
         createData: () => ({
             kind: 'input',
             status: 'idle',
-            prompt:
-        'Give me the most trending topics in the React community on Reddit.',
+            prompt: 'Login Screen',
         }),
     },
     skill: {

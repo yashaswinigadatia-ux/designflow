@@ -3,25 +3,32 @@ import type { InputNodeData } from '@/workflow/workflow-types';
 import { Field } from '../node-field';
 import { useNodeData } from '../use-node-data';
 
-export function TextInputBody({
-    data,
-}: {
-    readonly data: InputNodeData;
-}) {
+export function TextInputBody({ data }: { readonly data: InputNodeData }) {
     const patch = useNodeData<InputNodeData>();
 
     return (
-        <Field label="Screen Description">
-            <Textarea
-                value={data.prompt}
-                placeholder="Describe the screen..."
-                onChange={(event) =>
-                    patch({
-                        prompt: event.target.value,
-                    })
-                }
-                className="resize-none field-sizing-content min-h-20 max-h-[400px] overflow-auto overscroll-contain text-sm"
-            />
-        </Field>
+        <div className="space-y-3">
+
+            <Field label="Screen Name">
+                <Textarea
+                    value={data.prompt}
+                    placeholder="Enter screen name..."
+                    onChange={(e) =>
+                        patch({
+                            prompt: e.target.value,
+                        })
+                    }
+                    className="resize-none min-h-16"
+                />
+            </Field>
+
+            <Field label="Screen Description">
+                <Textarea
+                    placeholder="Describe this screen..."
+                    className="resize-none min-h-20"
+                />
+            </Field>
+
+        </div>
     );
 }
