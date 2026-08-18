@@ -1,65 +1,240 @@
-// The flow shown on first load: Text Input + Skill feed an AI Agent, which calls the
-// Search Reddit tool, then results flow to Formatted Output. A sticky note (behind
-// everything) onboards first-time visitors with the 5-step setup.
-import { createLink, createNode, createNote } from './build-node';
-import type { WorkflowCell } from './workflow-types';
+// Initial DesignFlow canvas.
+// Shows the default UI design workflow when the app opens.
 
-// Marketing-supplied onboarding copy — keep verbatim.
-const ONBOARDING_NOTE = `# 🤖 AI agent setup
+import {
+    createLink,
+    createNode,
+    createNote,
+} from './build-node';
 
-1. **Choose a model**
-2. **Set token budget**
-3. **Connect prompt & skill**
-4. **Add agent tools**
-5. **Run & view result**
+import type {
+    WorkflowCell,
+} from './workflow-types';
 
-> 💡 Tip: Runs with mock data by default — add your Anthropic or OpenAI API key to use a real LLM.`;
+
+const ONBOARDING_NOTE = `# 🎨 DesignFlow Setup
+
+1. **Create your screens**
+2. **Add UI components**
+3. **Configure layouts**
+4. **Connect design flow**
+5. **Preview your prototype**
+
+> 💡 Tip: Build your interface structure visually and generate a prototype flow.`;
+
+
 
 const NODES = {
-    // Sits behind the Agent node (z=0) as a framing "spotlight": the steps read in
-    // the note's upper half, the Agent card overlaps its lower half.
+
     note: createNote(
         { x: 430, y: -85 },
         {
             id: 'note-onboarding',
             text: ONBOARDING_NOTE,
             color: 'blue',
-            size: { width: 340, height: 500 },
+            size: {
+                width: 340,
+                height: 420,
+            },
         },
     ),
-    input: createNode('input', { x: 80, y: 80 }, { id: 'input-1' }),
-    skill: createNode('skill', { x: 80, y: 360 }, { id: 'skill-1' }),
-    agent: createNode('agent', { x: 460, y: 170 }, { id: 'agent-1' }),
-    tool: createNode('tool', { x: 470, y: 520 }, { id: 'tool-1' }),
-    output: createNode('output', { x: 860, y: 250 }, { id: 'output-1' }),
+
+
+    input: createNode(
+        'input',
+        { x: 80, y: 100 },
+        {
+            id: 'input-1',
+        },
+    ),
+
+
+    skill: createNode(
+        'skill',
+        { x: 80, y: 350 },
+        {
+            id: 'skill-1',
+        },
+    ),
+
+
+    agent: createNode(
+        'agent',
+        { x: 460, y: 220 },
+        {
+            id: 'agent-1',
+        },
+    ),
+
+
+    tool: createNode(
+        'tool',
+        { x: 470, y: 500 },
+        {
+            id: 'tool-1',
+        },
+    ),
+
+
+    output: createNode(
+        'output',
+        { x: 850, y: 260 },
+        {
+            id: 'output-1',
+        },
+    ),
+
 };
 
+
+
+
+/*
+ * IMPORTANT:
+ *
+ * The Agent has these ports:
+ *
+ * INPUT:
+ *   prompt -> Input Screen
+ *   skill  -> Skill
+ *
+ * OUTPUT:
+ *   result -> Prototype Preview
+ *   tool   -> Navigation Tool
+ *
+ *
+ * Therefore the graph must be:
+ *
+ *
+ *       Input Screen
+ *             |
+ *             v
+ *          prompt
+ *             |
+ *       +-----------+
+ * Skill ->|  Button  |-----> Prototype Preview
+ *         +-----------+
+ *              |
+ *              v
+ *        Navigation Bar
+ *
+ */
+
+
+
 const LINKS = [
-    // Input → Agent prompt, Skill → Agent skill, Agent tool → Search Reddit.
+
+    /*
+     * Input Screen → Button
+     *
+     * Input node has:
+     *     out
+     *
+     * Button has:
+     *     prompt (input)
+     */
     createLink(
-        { id: 'input-1', port: 'out' },
-        { id: 'agent-1', port: 'prompt' },
-        { id: 'link-prompt' },
+        {
+            id: 'input-1',
+            port: 'out',
+        },
+        {
+            id: 'agent-1',
+            port: 'prompt',
+        },
+        {
+            id: 'link-input-agent',
+            label: 'Prompt',
+        },
     ),
+
+
+
+    /*
+     * Home Screen / Skill → Button
+     *
+     * Skill node has:
+     *     out
+     *
+     * Button has:
+     *     skill (input)
+     */
     createLink(
-        { id: 'skill-1', port: 'out' },
-        { id: 'agent-1', port: 'skill' },
-        { id: 'link-skill' },
+        {
+            id: 'skill-1',
+            port: 'out',
+        },
+        {
+            id: 'agent-1',
+            port: 'skill',
+        },
+        {
+            id: 'link-skill-agent',
+            label: 'Skill',
+        },
     ),
+
+
+
+    /*
+     * Button → Navigation Bar
+     *
+     * Button has:
+     *     tool (output)
+     *
+     * Navigation Bar has:
+     *     tool (input)
+     */
     createLink(
-        { id: 'agent-1', port: 'tool' },
-        { id: 'tool-1', port: 'tool' },
-        { id: 'link-tool' },
+        {
+            id: 'agent-1',
+            port: 'tool',
+        },
+        {
+            id: 'tool-1',
+            port: 'tool',
+        },
+        {
+            id: 'link-agent-tool',
+            label: 'Tool',
+        },
     ),
-    // Agent result → Output: carries the token counter, the one labelled link.
+
+
+
+    /*
+     * Button → Prototype Preview
+     *
+     * Button has:
+     *     result (output)
+     *
+     * Prototype Preview has:
+     *     result (input)
+     *
+     * THIS IS THE CONNECTION YOUR OLD GRAPH WAS MISSING.
+     */
     createLink(
-        { id: 'agent-1', port: 'result' },
-        { id: 'output-1', port: 'result' },
-        { id: 'link-result', tokens: 0 },
+        {
+            id: 'agent-1',
+            port: 'result',
+        },
+        {
+            id: 'output-1',
+            port: 'result',
+        },
+        {
+            id: 'link-agent-output',
+            label: 'Result',
+        },
     ),
+
 ];
 
-export const INITIAL_CELLS: readonly WorkflowCell[] = [
-    ...Object.values(NODES),
-    ...LINKS,
-];
+
+
+
+export const INITIAL_CELLS:
+    readonly WorkflowCell[] = [
+        ...Object.values(NODES),
+        ...LINKS,
+    ];

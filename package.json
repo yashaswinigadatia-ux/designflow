@@ -1,9 +1,9 @@
 {
-  "name": "@joint/demo-ai-workflow-builder",
+ "name": "designflow-builder",
   "private": true,
   "version": "4.3.0",
   "type": "module",
-  "description": "A node-based AI workflow builder showcasing @joint/react-plus with a real AI agent (mock / OpenAI / Anthropic).",
+  "description": "A node-based DesignFlow Builder showcasing @joint/react-plus with a real AI agent (mock / OpenAI / Anthropic).",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

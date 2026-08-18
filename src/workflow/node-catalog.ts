@@ -78,55 +78,65 @@ export const NODE_CATALOG: Record<ConfigKind, NodeConfig> = {
     },
 
     agent: {
+    kind: 'agent',
+    title: 'Button Component',
+    description: 'Reusable button component.',
+    icon: 'bot',
+    accent: 'brand',
+
+    width: 272,
+    height: 226,
+
+    ports: [
+        {
+            id: 'input',
+            direction: 'in',
+            type: 'text',
+            label: 'input',
+            side: 'left',
+            at: 0.816,
+        },
+
+        {
+            id: 'skill',
+            direction: 'in',
+            type: 'skill',
+            label: 'skill',
+            side: 'left',
+            at: 0.913,
+        },
+
+        {
+            id: 'result',
+            direction: 'out',
+            type: 'result',
+            label: 'result',
+            side: 'right',
+            at: 0.816,
+        },
+
+        {
+            id: 'tool',
+            direction: 'out',
+            type: 'tool',
+            label: 'tool',
+            side: 'bottom',
+            at: 0.5,
+        },
+    ],
+
+
+    createData: () => ({
         kind: 'agent',
-        title: 'Button Component',
-        description: 'Reusable button component.',
-        icon: 'bot',
-        accent: 'brand',
-        width: 272,
-        height: 226,
-        ports: [
-            {
-                id: 'prompt',
-                direction: 'in',
-                type: 'text',
-                label: 'prompt',
-                side: 'left',
-                at: 0.816,
-            },
-            {
-                id: 'skill',
-                direction: 'in',
-                type: 'skill',
-                label: 'skill',
-                side: 'left',
-                at: 0.913,
-            },
-            {
-                id: 'result',
-                direction: 'out',
-                type: 'result',
-                label: 'result',
-                side: 'right',
-                at: 0.816,
-            },
-            {
-                id: 'tool',
-                direction: 'out',
-                type: 'tool',
-                label: 'tool',
-                side: 'bottom',
-                at: 0.5,
-            },
-        ],
-        createData: () => ({
-            kind: 'agent',
-            status: 'idle',
-            componentType: 'Button',
-            variant: 'Primary',
-            label: 'Login',
-        }),
-    },
+        status: 'idle',
+
+        componentType: 'Button',
+
+        variant: 'Primary',
+
+        label: 'Login',
+    }),
+},
 
     tool: {
         kind: 'tool',

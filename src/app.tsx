@@ -82,7 +82,7 @@ function Workspace({ cells, setCells }: WorkspaceProps) {
             />
             <main className="relative flex min-h-0 flex-1">
                 {/* Page heading for assistive tech (visually hidden; the brand wordmark carries it for sighted users). */}
-                <h1 className="sr-only">AI Workflow Builder</h1>
+                <h1 className="sr-only">DesignFlow Builder</h1>
                 <SlideOver
                     open={stencilOpen}
                     onClose={() => setStencilOpen(false)}
