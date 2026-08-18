@@ -2,7 +2,7 @@
 
 DesignFlow Builder is a visual UI/UX workflow and prototype generation tool built with React and JointJS+.
 
-It allows designers and developers to visually define application screens, UI components, navigation elements, and prototype configurations through a connected workflow. Running the workflow generates a visual prototype preview directly inside the application.<img width="1916" height="851" alt="designflow-editor" src="https://github.com/user-attachments/assets/e6a828f5-e9df-4ff2-a243-f7426858282f" />
+It allows designers and developers to visually define application screens, UI components, navigation elements, and prototype configurations through a connected workflow. Running the workflow generates a visual prototype preview directly inside the application.
 
 
 ## Features
@@ -25,11 +25,15 @@ It allows designers and developers to visually define application screens, UI co
 - JointJS+
 - Lucide React
 
+## Screenshots
+<img width="1917" height="867" alt="prototype-preview" src="https://github.com/user-attachments/assets/9887d275-178a-4b7b-bb8a-6d7d37399a05" />
+<img width="1917" height="857" alt="mobile-preview" src="https://github.com/user-attachments/assets/4d5e66b2-c088-44e3-8ff2-cc050eedbd26" />
+<img width="1916" height="851" alt="designflow-editor" src="https://github.com/user-attachments/assets/89c8be42-8744-4706-a53e-d62aa88a16b3" />
+
+
 ## Running Locally
 
 ```bash
 npm install
 npm run dev
-<img width="1917" height="867" alt="prototype-preview" src="https://github.com/user-attachments/assets/77a3f02a-bc29-4fd5-9fa4-52a81b06fcf7" />
-<img width="1917" height="857" alt="mobile-preview" src="https://github.com/user-attachments/assets/5b8f8239-c0cd-4f61-be23-f3bc2d7274ac" />
-![Uploading designflow-editor.png…]()
+
