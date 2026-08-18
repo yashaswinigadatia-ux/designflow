@@ -1,78 +1,35 @@
-# JointJS+: DesignFlow Builder (React) <a href="https://www.jointjs.com/jointjs-plus"><img src="../../jointjs-plus-badge.svg" alt="JointJS+" width="123" align="right" /></a>
+# DesignFlow Builder
 
-DesignFlow Builder is a JointJS+ demo application that lets you visually design an autonomous agent’s behavior by wiring together triggers, conditions, and actions.
+DesignFlow Builder is a visual UI/UX workflow and prototype generation tool built with React and JointJS+.
 
-This demo is also available online at [jointjs.com](https://jointjs.com/demos/ai-workflow-editor).
+It allows designers and developers to visually define application screens, UI components, navigation elements, and prototype configurations through a connected workflow. Running the workflow generates a visual prototype preview directly inside the application.<img width="1916" height="851" alt="designflow-editor" src="https://github.com/user-attachments/assets/e6a828f5-e9df-4ff2-a243-f7426858282f" />
 
-## What this demo shows
 
-- **Agent configuration on canvas** — an `AI Agent` node with model selection, token budget, and connected `prompt` and `skill` inputs
-- **Tool calling, visualized** — tools like `Search Reddit` attach directly to the agent node as connected blocks, so the flow of data into and out of the agent is visible, not hidden in a config panel
-- **Skill files as first-class nodes** — a `Markdown File` node feeds instructions into the agent, making the agent's behavior inspectable and editable on the graph
-- **Structured output rendering** — a `Formatted Output` node renders the agent's result as Markdown, closing the loop from prompt to tool call to result
+## Features
 
-## Why build agent builder UIs with JointJS+ for React
+- **Visual workflow builder** — Create and connect UI/UX workflow nodes on a canvas.
+- **Screen configuration** — Define screen names, screen types, layouts, and descriptions.
+- **UI component configuration** — Configure components such as buttons and their variants.
+- **Navigation configuration** — Define navigation position, logo, and menu items.
+- **Prototype Preview** — Generate a visual prototype from the connected workflow.
+- **Interactive inspector** — Edit node properties directly from the inspector panel.
+- **Responsive prototype preview** — Preview generated interfaces in mobile and desktop layouts.
+- **React + JointJS+** — Built using React and JointJS+ for graph-based workflow editing.
 
-Most AI agent interfaces start as a form. They outgrow that fast — once an agent has multiple tools, conditional branches, or chained sub-agents, a form can't represent it, but a graph can.
+## Tech Stack
 
-JointJS+ for React is a UI library for exactly this kind of diagramming — not a wrapper around a canvas library, but a native React integration with:
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- JointJS+
+- Lucide React
 
-- **A real data model** — the graph (nodes, links, and their data) is the source of truth, not just what's rendered, so you can inspect, validate, and serialize an agent's structure directly
-- **Large-graph performance** — agent flows grow quickly once you add tools, sub-agents, and branching logic; JointJS+ for React is built to stay responsive as graphs scale
-- **Custom shapes** — agent nodes, tool nodes, and skill nodes in this demo are custom React components, not generic boxes
-- **Feature richness out of the box** — this demo ships with an inspector panel, element palette, export/import, automatic layout, a navigator, and built-in accessibility support, all included as part of JointJS+ for React
-
-## Use cases
-
-- Visual AI agent builders and agent configuration platforms
-- LLM workflow / pipeline editors (prompt chaining, tool calling, RAG pipelines)
-- Multi-agent orchestration dashboards
-- Internal tools for configuring and debugging agent behavior
-
-## How to download this demo
-
-You can download this demo using our [`@joint/cli` tool](https://www.npmjs.com/package/@joint/cli):
-
-```bash
-npx @joint/cli download ai-workflow-builder/react
-```
-
-Alternatively, you can get the [copy of the repository](https://github.com/clientIO/joint-demos/archive/refs/heads/main.zip) from GitHub as usual.
-
-## Running the application
-
-To run this application you need to have access to JointJS+ package. You can get it by having a JointJS+ license or by starting a [free trial](https://www.jointjs.com/free-trial).
-
-If you are a trial user, you received your access token during the trial sign-up process.
-If you are a customer, log in to the customer portal at https://my.jointjs.com to obtain your access token.
-
-This example uses `.npmrc` file to set up access to the JointJS+ private npm registry. By default it uses `JOINTJS_NPM_TOKEN` environment variable to get authentication token. You can set this environment variable in your terminal or CI environment in the following way:
-
-**macOS / Linux**:
-```sh
-export JOINTJS_NPM_TOKEN="jjs-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-```
-
-**Windows (PowerShell)**:
-```sh
-$env:JOINTJS_NPM_TOKEN="jjs-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-```
-
-Learn more about our [private npm registry here.](https://docs.jointjs.com/learn/help-center/npm-registry)
-
-After setting up access to JointJS+ package, install the dependencies by running:
+## Running Locally
 
 ```bash
 npm install
-```
-
-And then start the application with:
-
-```bash
 npm run dev
-```
-
-## Related
-
-- [JointJS for React documentation](https://docs.jointjs.com/react)
-- [Other JointJS demos](https://jointjs.com/demos)
+<img width="1917" height="867" alt="prototype-preview" src="https://github.com/user-attachments/assets/77a3f02a-bc29-4fd5-9fa4-52a81b06fcf7" />
+<img width="1917" height="857" alt="mobile-preview" src="https://github.com/user-attachments/assets/5b8f8239-c0cd-4f61-be23-f3bc2d7274ac" />
+![Uploading designflow-editor.png…]()
